@@ -4,7 +4,7 @@ PSQL="psql -U freecodecamp -d periodic_table -t --no-align -c"
 
 if [[ -z $1 ]]
 then
-  echo Please provide an element as an argument.
+  echo -e "\033[31mPlease provide an element as an argument.\033[0m"
   exit
 fi
 
@@ -24,12 +24,12 @@ if [[ $1 && ($1 =~ ^[a-zA-Z]+$ || $1 =~ ^[0-9]+$) ]]; then
     FROM elements FULL JOIN properties USING(atomic_number) FULL JOIN types USING(type_id) $QUERY_INPUT")"
 
   if [[ -z $QUERY_RESULT ]]; then
-      echo "I could not find that element in the database."
+      echo -e "\033[33mI could not find that element in the database.\033[0m\n"
       exit
   fi
 
   echo $QUERY_RESULT | while IFS='|' read ATOMIC_NUMBER  NAME  SYMBOL  TYPE  ATOMIC_MASS  MELTING_POINT  BOILING_POINT; do
-    echo "The element with atomic number "$ATOMIC_NUMBER" is "$NAME" ("$SYMBOL"). It's a "$TYPE", with a mass of "$ATOMIC_MASS" amu. "$NAME" has a melting point of "$MELTING_POINT" celsius and a boiling point of "$BOILING_POINT" celsius."
+    echo -e "\n The element with atomic number \033[32m$ATOMIC_NUMBER\033[0m is \033[32m$NAME\033[0m (\033[32m$SYMBOL\033[0m).\n It's a \033[32m$TYPE\033[0m, with a mass of \033[32m$ATOMIC_MASS\033[0m amu.\n "$NAME" has a melting point of \033[32m$MELTING_POINT\033[0m celsius and a boiling point of \033[32m$BOILING_POINT\033[0m celsius.\n"
   done
 
 fi
